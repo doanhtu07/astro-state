@@ -1,0 +1,38 @@
+---
+import { ClientRouter } from "astro:transitions";
+import CommonHead from "../server-components/CommonHead.astro";
+import ThemeEffect from "../components/ThemeEffect.tsx";
+import { AppHtmlIds } from "../utils/html-ids.ts";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<html lang="en" transition:animate="none">
+  <head>
+    <CommonHead title={title} description={description} />
+    <ClientRouter />
+  </head>
+
+  <body>
+    <div
+      id={AppHtmlIds.root}
+      class:list={[
+        "min-h-screen",
+        "flex flex-col p-8",
+        "transition",
+        "bg-white dark:bg-black",
+        "text-black dark:text-white",
+      ]}
+    >
+      <ThemeEffect client:load />
+      <slot />
+    </div>
+  </body>
+</html>
+
