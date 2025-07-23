@@ -1,9 +1,10 @@
 ---
 import { ThemeButton } from "../components/ThemeButton";
+import { AppTransitionNames } from "../utils/transition-names";
 ---
 
 <navbar class:list={"flex flex-row items-center gap-4"}>
   <a href="/">Home</a>
   <a href="/about">About</a>
-  <ThemeButton client:load transition:persist />
+  <ThemeButton client:load transition:persist={AppTransitionNames.themeButton} />
 </navbar>
