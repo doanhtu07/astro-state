@@ -1,18 +1,19 @@
 "use client";
 
 import { useCallback, useEffect } from "react";
-import { themeStore } from "../stores/themeStore";
-import { useHydratedStore } from "../stores/useHydratedStore";
 import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
 import { AppHtmlIds } from "../utils/html-ids";
+import { themeStore } from "../stores/zustand/themeStore";
 
 export default function ThemeEffect() {
   // MARK: Artifacts
 
-  const { value: $darkAtom } = useHydratedStore({
-    inputAtom: themeStore.darkAtom,
-    defaultValue: themeStore.defaultDark,
-  });
+  // const { value: $darkAtom } = useHydratedStore({
+  //   inputAtom: themeStore.darkAtom,
+  //   defaultValue: themeStore.defaultDark,
+  // });
+
+  const dark = themeStore.useStore.use.dark();
 
   const handleTheme = useCallback(
     (document: Document) => {
@@ -22,13 +23,13 @@ export default function ThemeEffect() {
         return;
       }
 
-      if ($darkAtom) {
+      if (dark) {
         rootDiv.classList.add("dark");
       } else {
         rootDiv.classList.remove("dark");
       }
     },
-    [$darkAtom],
+    [dark],
   );
 
   // MARK: Effects

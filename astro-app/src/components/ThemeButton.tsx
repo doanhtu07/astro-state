@@ -1,21 +1,31 @@
 "use client";
 
-import { themeStore } from "../stores/themeStore";
 import clsx from "clsx";
 import { useCallback } from "react";
-import { useHydratedStore } from "../stores/useHydratedStore";
+import { themeStore } from "../stores/zustand/themeStore";
+import { useHydratedValues } from "../stores/zustand/useHydratedValues";
 
 export const ThemeButton = () => {
   // MARK: Artifacts
 
-  const { ssrValue: $darkAtom } = useHydratedStore({
-    inputAtom: themeStore.darkAtom,
-    defaultValue: themeStore.defaultDark,
+  // const { ssrValue: $darkAtom } = useHydratedStore({
+  //   inputAtom: themeStore.darkAtom,
+  //   defaultValue: themeStore.defaultDark,
+  // });
+
+  const dark = themeStore.useStore.use.dark();
+  const toggleTheme = themeStore.useStore.use.toggleTheme();
+
+  const { ssrValues } = useHydratedValues({
+    dark: {
+      value: dark,
+      defaultValue: themeStore.defaults.dark,
+    },
   });
 
   const handleToggleTheme = useCallback(() => {
-    themeStore.toggleTheme();
-  }, []);
+    toggleTheme();
+  }, [toggleTheme]);
 
   // MARK: Renderers
 
@@ -27,7 +37,7 @@ export const ThemeButton = () => {
       )}
       onClick={handleToggleTheme}
     >
-      {$darkAtom ? "Light" : "Dark"}
+      {ssrValues.dark ? "Light" : "Dark"}
     </button>
   );
 };

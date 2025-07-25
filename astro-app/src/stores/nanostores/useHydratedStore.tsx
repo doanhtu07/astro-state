@@ -7,7 +7,7 @@ type Props<T> = {
   defaultValue: T;
 };
 
-export const useHydratedStore = <T>(props: Props<T>) => {
+export const useHydratedStore = <T,>(props: Props<T>) => {
   // MARK: Artifacts
 
   const { inputAtom, defaultValue } = props;
